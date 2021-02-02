@@ -57,11 +57,15 @@ public class Regul extends Thread {
 		
 		// Synchronized access methods. K should always be non-negative.
 		public synchronized double getK() {
-            //TODO C2.E11: Write your code here //
-            return 0.0;
+            
+            return K;
         }
 		public synchronized void setK(double K) {
-            //TODO C2.E11: Write your code here //
+			if (K >= 0) {
+				this.K = K;
+			} else {
+				System.out.println("Illegal K value ignored: " + K);
+			}
         }
 	}
 	
@@ -71,12 +75,11 @@ public class Regul extends Thread {
 		
 		// Synchronized access methods
 		public synchronized double getRef() {
-            //TODO C2.E11: Write your code here //
-            return 0.0;
+            return ref;
         }
 		public synchronized void setRef(double ref) {
-            //TODO C2.E11: Write your code here //
-        }
+			this.ref = ref;
+		}
 	}
 	
 	// Class definition for internal OnMonitor
@@ -85,12 +88,11 @@ public class Regul extends Thread {
 		
 		// Synchronized access methods
 		public synchronized boolean isOn() {
-            //TODO C2.E11: Write your code here //
-            return true;
+			return on;
         }
 		public synchronized void setOn(boolean on) {
-            //TODO C2.E11: Write your code here //
-        }
+			this.on = on;
+		}
 	}
 	
 	// Run method
