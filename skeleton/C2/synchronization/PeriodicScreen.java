@@ -16,7 +16,8 @@ public class PeriodicScreen extends Thread {
      *     screen (Screen): The screen to write to
      */
     public PeriodicScreen(int period, Screen screen) {
-
+    	this.period = period;
+    	this.screen = screen;
         // TODO C2.E4: Write initialization code here //
 
     }
@@ -32,10 +33,13 @@ public class PeriodicScreen extends Thread {
             while (!Thread.interrupted()) {
 
                  // TODO C2.E4: Write code to write to the shared screen resource //
-
+            	//PeriodicScreen(period, screen);
+            	screen.writePeriod(period);
+            	Thread.sleep(period);
             }
         } catch (InterruptedException e) {
             e.printStackTrace();
+            System.out.println("Thread stopped.");
         }
     }
 

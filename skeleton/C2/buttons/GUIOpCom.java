@@ -4,10 +4,10 @@ import java.awt.*;
 import java.awt.event.*;
 
 public class GUIOpCom {
-	private Regul regul;
+	private RegulC4 regul;
 	private JSlider slider;
 	
-	public GUIOpCom(Regul r, int p) {
+	public GUIOpCom(RegulC4 r, int p) {
 		regul = r;
 		JFrame frame = new JFrame("K");
 		JPanel mainPanel = new JPanel();

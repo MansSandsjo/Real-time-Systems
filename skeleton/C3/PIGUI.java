@@ -6,7 +6,7 @@ import se.lth.control.*;
 public class PIGUI {
 	private String name;
 	private PI pi;
-	private PIParameters params;
+	private PIParametersC4 params;
 	private JPanel paramsLabelPanel = new JPanel();
 	private JPanel paramsFieldPanel = new JPanel();
 	private BoxPanel paramsPanel = new BoxPanel(BoxPanel.HORIZONTAL);
@@ -17,7 +17,7 @@ public class PIGUI {
 	private DoubleField paramsHField = new DoubleField(6,3);
 	private JButton paramsButton = new JButton("Apply");
 
-	public PIGUI(PI pCon, PIParameters p, String n) {
+	public PIGUI(PI pCon, PIParametersC4 p, String n) {
 		name = n;
 		pi = pCon;
 		params = p;

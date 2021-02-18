@@ -8,7 +8,7 @@ import java.util.*;
 
 /** Class for creating and maintaining the GUI. Contains a plotter
  * panel with an internal thread taking care of the plotting. */
-public class Opcom {
+public class Opcomtest {
     private Sinus sinus; // Reference to sine wave generator
     // Declaration of main frame.
     private JFrame frame;
@@ -23,7 +23,7 @@ public class Opcom {
     private PlotterPanel plotter; // Plotter panel
 
 
-    public Opcom() {
+    public Opcomtest() {
         plotter = new PlotterPanel(1, 4); // One channel, priority 4
     }
 
@@ -177,7 +177,7 @@ public class Opcom {
 
     public static void main(String[] argv) {
 
-        Opcom o = new Opcom();
+        Opcomtest o = new Opcomtest();
         o.initializeGUI();
     }
 

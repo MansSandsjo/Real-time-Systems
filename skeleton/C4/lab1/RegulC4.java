@@ -2,12 +2,12 @@ import se.lth.control.*;
 
 /** Dummy Regul class for exercise 4. Generates and sends sinewaves to OpCom
 and replies with print-outs when the set methods are called. */
-public class Regul extends Thread {
+public class RegulC4 extends Thread {
 	public static final int OFF=0, BEAM=1, BALL=2;
 	
-	private PIParameters innerPar;
-	private PIDParameters outerPar;
-	private OpCom opcom;
+	private PIParametersC4 innerPar;
+	private PIDParametersC4 outerPar;
+	private OpComC4 opcom;
 	
 	private int mode;
 	
@@ -20,8 +20,8 @@ public class Regul extends Thread {
 	private boolean doIt = true;
 	
 	/** Constructor. Sets initial values of the controller parameters and initial mode. */
-	public Regul() {
-		innerPar = new PIParameters();
+	public RegulC4() {
+		innerPar = new PIParametersC4();
 		innerPar.K = 4.0;
 		innerPar.Ti = 0.0;
 		innerPar.Tr = 10.0;
@@ -29,7 +29,7 @@ public class Regul extends Thread {
 		innerPar.H = 0.05;
 		innerPar.integratorOn = false;
 		
-		outerPar = new PIDParameters();
+		outerPar = new PIDParametersC4();
 		outerPar.K = -0.05;
 		outerPar.Ti = 0.0;
 		outerPar.Td = 2.0;
@@ -43,7 +43,7 @@ public class Regul extends Thread {
 	}
 	
 	/** Sets up a reference to OpCom. Called from Main. */
-	public void setOpCom(OpCom o) {
+	public void setOpCom(OpComC4 o) {
 		opcom = o;
 	}
 	
@@ -68,9 +68,12 @@ public class Regul extends Thread {
 			pd.ref = r;
 			pd.x = realTime;
 			opcom.putMeasurementDataPoint(pd);
+			opcom.putTestDataPoint(pd);
 			
 			dp = new DoublePoint(realTime,u);
 			opcom.putControlDataPoint(dp);
+			
+			
 			
 			realTime += ((double) h)/1000.0;
 			sinTime += freq*((double) h)/1000.0;
@@ -92,23 +95,23 @@ public class Regul extends Thread {
 	}
 	
 	/** Called by OpCom to set the parameter values of the inner loop. */
-	public synchronized void setInnerParameters(PIParameters p) {
+	public synchronized void setInnerParameters(PIParametersC4 p) {
 		System.out.println("Parameters changed for inner loop");
 	}
 	
 	/** Called by OpCom during initialization to get the parameter values of the inner loop. */
-	public synchronized PIParameters getInnerParameters() {
-		return (PIParameters) innerPar.clone(); 
+	public synchronized PIParametersC4 getInnerParameters() {
+		return (PIParametersC4) innerPar.clone(); 
 	}
 	
 	/** Called by OpCom to set the parameter values of the outer loop */
-	public synchronized void setOuterParameters(PIDParameters p) {
+	public synchronized void setOuterParameters(PIDParametersC4 p) {
 		System.out.println("Parameters changed for outer loop");
 	}
 	
 	/** Called by OpCom during initialization to get the parameter values of the outer loop. */
-	public synchronized PIDParameters getOuterParameters() {
-		return (PIDParameters) outerPar.clone(); 
+	public synchronized PIDParametersC4 getOuterParameters() {
+		return (PIDParametersC4) outerPar.clone(); 
 	}
 	
 	/** Called by OpCom to turn off the controller. */

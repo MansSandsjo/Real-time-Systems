@@ -6,7 +6,7 @@ import se.lth.control.*;
 public class PIDGUI {
 	private String name;
 	private PID pid;
-	private PIDParameters params;
+	private PIDParametersC4 params;
 	private JPanel paramsLabelPanel = new JPanel();
 	private JPanel paramsFieldPanel = new JPanel();
 	private BoxPanel paramsPanel = new BoxPanel(BoxPanel.HORIZONTAL);
@@ -19,7 +19,7 @@ public class PIDGUI {
 	private DoubleField paramsHField = new DoubleField(6,3);
 	private JButton paramsButton = new JButton("Apply");
 
-	public PIDGUI(PID pCon, PIDParameters p, String n) {
+	public PIDGUI(PID pCon, PIDParametersC4 p, String n) {
 		name = n;
 
 		pid = pCon;

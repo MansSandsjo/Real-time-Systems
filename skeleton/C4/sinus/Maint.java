@@ -1,14 +1,14 @@
 import se.lth.control.*;
 
 /** Main class used only for initialization */
-public class Main {
+public class Maint {
 
   /** main method called when application starts */
   public static void main(String[] args) {
-    Opcom opcom;
+    Opcomtest opcom;
     Sinus sinus;
 
-    opcom = new Opcom();
+    opcom = new Opcomtest();
     sinus = new Sinus();
 
     // Symmetric reference exchange

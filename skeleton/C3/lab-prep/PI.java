@@ -10,27 +10,43 @@ public class PI {
 	// Constructor
 	public PI(String name) {
         //TODO C3.E2: Write your code here //
+		PIParameters p = new PIParameters();
+		p.Beta = 1.0;
+		p.H = 0.02;
+		p.integratorOn = false;
+		p.K = 1.0;
+		p.Ti = 0.0;
+		p.Tr = 10.0;
+		new PIGUI(this, p, name);
+		setParameters(p);
+		
     }
 	
 	// Calculates the control signal v.
 	// Called from BeamRegul.
 	public synchronized double calculateOutput(double y, double yref) {
-        //TODO C3.E2: Write your code here //
-        return 0;
+		e = yref-y;
+		v = p.K * (p.Beta*yref - y) + I;
+		return v;
     }
 	
 	// Updates the controller state.
 	// Should use tracking-based anti-windup
 	// Called from BeamRegul.
 	public synchronized void updateState(double u) {
-        //TODO C3.E2: Write your code here //
-    }
+		if(p.integratorOn) {
+			I = I + (p.K * p.H / p.Ti) * e + (p.H / p.Tr) * (u - v);
+		}
+		else
+			I = 0.0;
+	}
 	
 	// Returns the sampling interval expressed as a long.
 	// Note: Explicit type casting needed
 	public synchronized long getHMillis() {
         //TODO C3.E2: Write your code here //
-        return 0;
+		long hmillis = (long)(p.H*1000.0);
+        return hmillis;
     }
 	
 	// Sets the PIParameters.
@@ -38,5 +54,9 @@ public class PI {
 	// Must clone newParameters.
 	public synchronized void setParameters(PIParameters newParameters) {
         //TODO C3.E2: Write your code here //
+		p = (PIParameters) newParameters.clone();
+		if(!p.integratorOn) {
+			I = 0.0;
+		}
     }
 }

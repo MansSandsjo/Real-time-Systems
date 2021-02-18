@@ -3,7 +3,6 @@
  *
  * Printing to a screen
  */
-public class Screen {
 
     /*
      * method printPeriod:
@@ -13,4 +12,9 @@ public class Screen {
      */
      // TODO C2.E4: WRITE FUNCTION printPeriod(int period)//
 
+public class Screen {
+	public synchronized void writePeriod(int p) {
+		System.out.print(p);
+		System.out.print(", ");
+	}
 }

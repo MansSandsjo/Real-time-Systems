@@ -1,4 +1,4 @@
-public class PIParameters implements Cloneable {
+public class PIParametersC4 implements Cloneable {
 	public double K;
 	public double Ti;
 	public double Tr;

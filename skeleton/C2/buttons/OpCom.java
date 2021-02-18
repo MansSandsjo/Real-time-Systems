@@ -5,18 +5,19 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 public class OpCom extends Thread {
-	private Regul regul;
+	private RegulC4 regul;
 	
 	// Constructor
-	public OpCom(Regul regul, int priority) {
-        //TODO C2.E10: Store variables and set priority //
-    }
+	public OpCom(RegulC4 regul, int priority) {
+		this.regul = regul;
+		setPriority(priority);
+	}
 	
 	// run method
 	public void run() {
         //NOTE: Make sure you understand what is happening //
         BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
-        while (!interrupted()) {
+        while (!Thread.interrupted()) {
             System.out.print("K = ");
             try {
                 regul.setK(Double.parseDouble(in.readLine()));

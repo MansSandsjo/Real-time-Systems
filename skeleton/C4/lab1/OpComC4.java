@@ -6,17 +6,17 @@ import se.lth.control.plot.*;
 
 /** Class that creates and maintains a GUI for the Ball and Beam process.
 Uses two internal threads to update plotters */
-public class OpCom {
+public class OpComC4 {
 	public static final int OFF = 0, BEAM = 1, BALL = 2;
 
-	private Regul regul;
-	private PIParameters innerPar;
-	private PIDParameters outerPar;
+	private RegulC4 regul;
+	private PIParametersC4 innerPar;
+	private PIDParametersC4 outerPar;
 	private int mode;
 
 	private PlotterPanel measurementPlotter; // has internal thread
 	private PlotterPanel controlPlotter; // has internal thread
-
+	private PlotterPanel testPlotter;
 	// Declarartion of main frame.
 	private JFrame frame;
 
@@ -53,25 +53,28 @@ public class OpCom {
 	private boolean hChanged = false; 
 
 	/** Constructor. Creates the plotter panels. */
-	public OpCom() {
+	public OpComC4() {
 		measurementPlotter = new PlotterPanel(2, 4); // Two channels
 		controlPlotter = new PlotterPanel(1, 4);
+		testPlotter = new PlotterPanel(2, 4);
 	}
 
 	/** Starts the threads. */
 	public void start() {
 		measurementPlotter.start();
 		controlPlotter.start();
+		testPlotter.start();
 	}
 
 	/** Stops the threads. */
 	public void stopThread() {
 		measurementPlotter.stopThread();
 		controlPlotter.stopThread();
+		testPlotter.stopThread();
 	}
 
 	/** Sets up a reference to Regul. Called by Main. */
-	public void setRegul(Regul r) {
+	public void setRegul(RegulC4 r) {
 		regul = r;
 	}
 
@@ -96,6 +99,10 @@ public class OpCom {
 		controlPlotter.setXAxis(range, divTicks, divGrid);
 		controlPlotter.setTitle("Control");
 		plotterPanel.add(controlPlotter);
+		testPlotter.setYAxis(2, -1, 2, 2);
+		testPlotter.setXAxis(range, divTicks, divGrid);
+		testPlotter.setTitle("test");
+		plotterPanel.add(testPlotter);
 
 		// Get initail parameters from Regul
 		innerPar = regul.getInnerParameters();
@@ -340,7 +347,7 @@ public class OpCom {
 		buttonPanel.add(beamModeButton);
 		buttonPanel.add(ballModeButton);
 		buttonPanel.add(stopButton);
-
+		buttonPanel.setBackground(Color.green);
 		// Select initial mode.
 		mode = regul.getMode();
 		switch (mode) {
@@ -361,12 +368,14 @@ public class OpCom {
 		leftPanel.add(innerParButtonPanel, BorderLayout.WEST);
 		leftPanel.add(outerParButtonPanel, BorderLayout.EAST);
 		leftPanel.add(buttonPanel, BorderLayout.SOUTH);
+	
 
 		// Create panel for the entire GUI.
 		guiPanel = new BoxPanel(BoxPanel.HORIZONTAL);
 		guiPanel.add(leftPanel);
 		guiPanel.addGlue();
 		guiPanel.add(plotterPanel);
+		
 
 		// WindowListener that exits the system if the main window is closed.
 		frame.addWindowListener(new WindowAdapter() {
@@ -405,5 +414,11 @@ public class OpCom {
 		double ref = pd.ref;
 		double y = pd.y;
 		measurementPlotter.putData(x, ref, y);
+	}
+	public synchronized void putTestDataPoint(PlotData pd) {
+		double x = pd.x;
+		double ref = pd.ref;
+		double y = pd.y;
+		testPlotter.putData(x, ref, y);
 	}
 }

@@ -1,23 +1,28 @@
 public class WrongWithSynchronization extends Thread {
     private volatile int ti = 0; 
-
+    private int e;
+    private int u;
+    private int loops;
 
     public void run() {
         // TODO C2.E2: Add synchronization statement to function //
-        int e;
-        int u;
+        
         int loops = 0;
 
         setPriority(4);
-
+        //doWork();
+   
+    
         try {
             e = 10;
             while (!Thread.interrupted()) {
+            	synchronized (this) {
                 if (ti != 0) {
                     u = e / ti; 
                 } else {
                     u = 0;
                 }
+            	}
                 loops++;
             }
         } catch (Exception ex) {
@@ -27,7 +32,7 @@ public class WrongWithSynchronization extends Thread {
     }
 
      // TODO C2.E2: Add synchronization statement to function //
-    public void setTi(int ti) {
+    public synchronized void setTi(int ti) {
         this.ti = ti;
     }
 

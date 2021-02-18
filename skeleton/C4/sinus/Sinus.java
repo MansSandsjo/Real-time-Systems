@@ -6,7 +6,7 @@ import java.util.*;
   Opcom */
 public class Sinus extends Thread {
 
-    private Opcom opcom;
+    private Opcomtest opcom;
     private double realTime = 0.0;
     private double sinTime = 0.0; 
     private int period = 100;
@@ -39,7 +39,7 @@ public class Sinus extends Thread {
     }
 
     /** Sets up a reference to Opcom. Called from Main. */
-    public void setOpcom(Opcom opc) {
+    public void setOpcom(Opcomtest opc) {
         opcom = opc;
     }
 

@@ -1,4 +1,4 @@
-public class PIDParameters implements Cloneable {
+public class PIDParametersC4 implements Cloneable {
 	public double K;
 	public double Ti;
 	public double Tr;

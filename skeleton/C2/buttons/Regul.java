@@ -13,42 +13,58 @@ public class Regul extends Thread {
 	private DigitalButtonOut offButtonLamp;
 	
 	// Internal Monitors
-	private ParameterMonitor paramMon;
-	private ReferenceMonitor refMon;
-	private OnMonitor onMon;
+	private ParameterMonitor paramMon= new ParameterMonitor();
+	private ReferenceMonitor refMon = new ReferenceMonitor();
+	private OnMonitor onMon = new OnMonitor();
 	
 	// Constructor
 	// Here the internal monitor objects should be created and
 	// the inputs and outputs should be initialized.
 	public Regul(int priority, Box b, FirstOrderProcess proc) {
         //TODO C2.E11: Initialize the sources and sinks //
-        //TODO C2.E11: Set the buttons and thread priority //
+		yIn = proc.getSource(0);
+		uOut = proc.getSink(0);
+		rOut = proc.getSink(1);
+		//TODO C2.E11: Set the buttons and thread priority //
+		onButtonLamp = b.getOnButtonLamp();
+		offButtonLamp = b.getOffButtonLamp();
+		updateLamps();
+		setPriority(priority);
     }
 	
+	private void updateLamps() {
+		boolean isOn = isOn();
+		onButtonLamp.set(isOn);
+		offButtonLamp.set(!isOn);
+	}
+
 	// Public method to set K. Should not be synchronized.
 	public void setK(double K) {
-        //TODO C2.E11: Write your code here //
-    }
+		paramMon.setK(K);
+	}
 	
 	// Public method to set the reference. Should not be synchronized.
 	public void setRef(double ref) {
-        //TODO C2.E11: Write your code here //
-    }
+		refMon.setRef(ref);
+	}
 	
 	// Method to check if the controller  is on. Should be private
 	// since it is only called from Regul itself.
 	private boolean isOn() {
-        //TODO C2.E11: Write your code here //
-        return true;
+        return onMon.isOn();
     }
 	
 	// Public methods to turn off and on the controller
 	// Should not be synchronized. Should update the button lamps
 	public void turnOff() {
         //TODO C2.E11: Write your code here //
+		onMon.setOn(false);
+		updateLamps();
     }
 	public void turnOn() {
         //TODO C2.E11: Write your code here //
+		onMon.setOn(true);
+		updateLamps();
     }
 	
 	// Class definition for internal ParameterMonitor
@@ -57,7 +73,6 @@ public class Regul extends Thread {
 		
 		// Synchronized access methods. K should always be non-negative.
 		public synchronized double getK() {
-            
             return K;
         }
 		public synchronized void setK(double K) {
@@ -97,12 +112,21 @@ public class Regul extends Thread {
 	
 	// Run method
 	public void run() {
-        //TODO C2.E11: Define help variables //
-
+final long h = 100;
         try {
-            while (!interrupted()) {
-               //TODO C2.E11: Write your code here // 
-               Thread.sleep(1);
+            while (!Thread.interrupted()) {
+            double y = yIn.get();
+            double r = refMon.getRef();
+            double K = paramMon.getK();
+            
+            double u = 0.0;
+            
+            if(isOn()) {
+            	u = K * (r - y); 
+            }
+            uOut.set(u);
+            rOut.set(r);
+            Thread.sleep(h);
             }
         } catch (InterruptedException e) {
             e.printStackTrace();
